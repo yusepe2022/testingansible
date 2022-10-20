@@ -1,1 +1,59 @@
-testting 
+- hosts: 
+  connection: httpapi
+  collections:
+    - fortinet.fortios
+  vars:
+    ansible_httpapi_use_ssl: yes
+    ansible_httpapi_validate_certs: no
+    ansible_httpapi_port: 443
+    vdom: "root"
+  tasks:
+  - name: Get multiple selectors info concurrently
+    fortios_configuration_fact:
+      selectors:
+        - selector: firewall_address
+          params:
+            name: "gmail.com"
+        - selector: system_interface
+        - selector: log_eventfilter
+          params: {}
+
+  - name: fact gathering
+    fortios_configuration_fact:
+        vdom: ""
+        filters:
+            - name==port1
+            - vlanid==0
+        sorters:
+            - name,vlanid
+            - management-ip
+        formatters:
+         - name
+         - management-ip
+         - vlanid
+        selector: 'system_interface'
+
+  - name: get all
+    fortios_configuration_fact:
+      vdom: ""
+      access_token: ""
+      selector: log_custom-field
+
+  - name: get single
+    fortios_configuration_fact:
+      vdom: ""
+      access_token: ""
+      selector: log_custom-field
+      #optionally list or single get
+      params:
+        id: "3"
+
+  - name: fetch one firewall address
+    fortios_configuration_fact:
+      selector: firewall_address
+      params:
+        name: "login.microsoft.com"
+
+  - name: fetch all firewall addresses
+    fortios_configuration_fact:
+      selector: firewall_address
