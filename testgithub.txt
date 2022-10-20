@@ -1,17 +1,49 @@
-=====ensure you have the proper indexing ======
-- hosts: localhost 
-  vars: 
-    host: "fgtwest 
-    username: "fgtadmin" 
-    password: "fgtpassword1234" 
-    vdom: "root" 
-    ssl_verify: "no"
-tasks:
- - name:  basic system status f  
-   fortios_facts: 
-   host: "{{ host }}" 
-   username: "{{ username }}" 
-   password: "{{ password }}" 
-   vdom: "{{ vdom }}" 
-   gather_subset:              
-    -  fact: 'system_status_select'
+- hosts: localhost
+  vars:
+    host: "192.168.122.40"
+    username: "admin"
+    password: ""
+    vdom: "root"
+    ssl_verify: "False"
+
+  tasks:
+  - name: gather basic system status facts
+    fortios_facts:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      gather_subset:
+        - fact: 'system_status_select'
+
+  - name: gather all physical interfaces status facts
+    fortios_facts:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      gather_subset:
+        - fact: 'system_interface_select'
+
+  - name: gather gather all physical and vlan interfaces status facts
+    fortios_facts:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      gather_subset:
+        - fact: 'system_interface_select'
+          filters:
+            - include_vlan: true
+
+  - name: gather basic system info and physical interface port3 status facts
+    fortios_facts:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      gather_subset:
+        - fact: 'system_status_select'
+        - fact: 'system_interface_select'
+          filters:
+            - interface_name: 'port3'
