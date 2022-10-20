@@ -1,15 +1,17 @@
-- hosts: fortigates
-  collections:
-    - fortinet.fortios
-  connection: httpapi
-  vars:
-   vdom: "root"
-   ansible_httpapi_use_ssl: yes
-   ansible_httpapi_validate_certs: no
-   ansible_httpapi_port: 443
-  tasks:
-  - name: Display information about the top CPU processes.
-    fortios_system_performance_top:
-      vdom:  "{{ vdom }}"
-      system_performance_top:
-        <delay>: "<your_own_value>"
+=====ensure you have the proper indexing ======
+- hosts: localhost 
+  vars: 
+    host: "fgtwest 
+    username: "fgtadmin" 
+    password: "fgtpassword1234" 
+    vdom: "root" 
+    ssl_verify: "no"
+tasks:
+ - name:  basic system status f  
+   fortios_facts: 
+   host: "{{ host }}" 
+   username: "{{ username }}" 
+   password: "{{ password }}" 
+   vdom: "{{ vdom }}" 
+   gather_subset:              
+    -  fact: 'system_status_select'
