@@ -1,2 +1,6 @@
 [fortigates]
 fortigate01 ansible_host=192.168.200.100 ansible_user="admin" ansible_password="admin"
+fortigate03 ansible_host=192.168.190.132 fortios_access_token=<your access token>
+
+[fortigates:vars]
+ansible_network_os=fortinet.fortios.fortios
