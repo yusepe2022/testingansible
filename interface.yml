@@ -1,0 +1,38 @@
+- hosts: fortigate03
+  collections:
+    - fortinet.fortios
+  connection: httpapi
+  vars:
+   vdom: "root"
+   ansible_httpapi_use_ssl: no
+   ansible_httpapi_validate_certs: no
+   ansible_httpapi_port: 80
+  tasks:
+  - name: Configure interfaces.
+    fortios_system_interface:
+      vdom:  "root"
+      state: "present"
+      access_token: ""
+      system_interface:
+        name: "port2"
+        alias: "test1-ansible"
+        allowaccess: 
+           - "ssh"
+           - "ping"
+           - "http"
+           - "snmp"
+        arpforward: "disable"
+        icmp_accept_redirect: "disable"
+        icmp_send_redirect: "disable"
+        type: "physical"
+        dedicated_to: "managment"
+        description: "Just_testing_purpouse"
+        role: "lan"
+        lldp_reception: "enable"
+        lldp_transmission: "enable"
+        snmp_index: "200"
+        ap_discover: "disable"
+        ip: "11.11.11.11/24"
+        
+
+
